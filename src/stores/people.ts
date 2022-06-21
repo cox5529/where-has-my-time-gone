@@ -6,13 +6,7 @@ import type { TimeUsage } from '../models/time-usage';
 export const usePersonStore = defineStore({
   id: 'people',
   state: () => ({
-    people: [
-      {
-        id: 0,
-        name: 'Joe',
-        usages: [],
-      },
-    ] as Person[],
+    people: [] as Person[],
   }),
   getters: {},
   actions: {

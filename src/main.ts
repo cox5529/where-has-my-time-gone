@@ -3,6 +3,7 @@ import {
   faCirclePlay,
   faCirclePlus,
   faCircleStop,
+  faCircleXmark,
   faUserCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -15,7 +16,13 @@ import './index.css';
 
 import App from './App.vue';
 
-library.add(faUserCircle, faCirclePlus, faCirclePlay, faCircleStop);
+library.add(
+  faUserCircle,
+  faCirclePlus,
+  faCirclePlay,
+  faCircleStop,
+  faCircleXmark
+);
 const app = createApp(App).component('font-awesome-icon', FontAwesomeIcon);
 
 app.use(createPinia());
