@@ -49,7 +49,26 @@ onUnmounted(() => clearInterval(intervalHandle));
 </script>
 
 <template>
-  <button @click="onStart" v-if="!start">Start</button>
-  <button @click="onStop" v-else>Stop</button>
-  <h5 v-if="start">{{ durationString }}</h5>
+  <div class="flex gap-4 items-center">
+    <button @click="onStart" :disabled="!!start">
+      <font-awesome-icon
+        class="w-8 h-8"
+        :class="{ 'text-green-700': start }"
+        icon="fa-solid fa-circle-play"
+      />
+    </button>
+    <h5
+      class="bg-black p-2 rounded-md font-mono"
+      :class="{ 'text-green-300': start, 'text-red-300': !start }"
+    >
+      {{ durationString }}
+    </h5>
+    <button @click="onStop" :disabled="!start">
+      <font-awesome-icon
+        class="w-8 h-8"
+        :class="{ 'text-red-700': !start }"
+        icon="fa-solid fa-circle-stop"
+      />
+    </button>
+  </div>
 </template>
