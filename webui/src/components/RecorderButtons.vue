@@ -28,7 +28,7 @@ function onStart(): void {
   intervalHandle = setInterval(() => {
     const current = new Date().getTime();
     duration.value = Math.floor((current - (start.value as number)) / 1000);
-  }, 250) as unknown as number;
+  }, 250);
 }
 
 function onStop(): void {
