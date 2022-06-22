@@ -6,7 +6,7 @@ export interface AuthenticationState {
 }
 
 export const useAuthenticationStore = defineStore({
-  id: 'modals',
+  id: 'authentication',
   state: (): AuthenticationState => ({
     user: undefined,
   }),
