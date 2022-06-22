@@ -1,0 +1,26 @@
+﻿version: '3.3'
+
+volumes:
+  postgres-data:
+
+services:
+  gateway:
+    image: ghcr.io/cox5529/where-has-my-time-gone/gateway:latest
+    ports:
+      - "8088:443"
+    build:
+      context: .
+      dockerfile: ./src/WhereHasMyTimeGone.API.Gateway/Dockerfile
+    environment:
+      ASPNETCORE_URLS: https://*:443
+    depends_on:
+      - postgres
+  
+  postgres:
+    image: postgres:14.2
+    volumes:
+      - type: volume
+        source: postgres-data
+        target: /var/lib/postgresql/data
+    ports:
+      - "5434:5432"

@@ -1,0 +1,62 @@
+﻿version: '3.3'
+
+secrets:
+  InitialUserSettings__Email:
+    external:
+      name: InitialUserSettings__Email
+  ConnectionStrings__DefaultConnection:
+    external:
+      name: ConnectionStrings__DefaultConnection_3
+  EmailSettings__SendGridApiKey:
+    external:
+      name: EmailSettings__SendGridApiKey
+  EmailSettings__FromName:
+    external:
+      name: EmailSettings__FromName
+  EmailSettings__FromAddress:
+    external:
+      name: EmailSettings__FromAddress
+  EmailSettings__Domain:
+    external:
+      name: EmailSettings__Domain
+  postgres_password:
+    external:
+      name: postgres_password
+      
+services:
+  gateway:
+    secrets:
+      - InitialUserSettings__Email
+      - ConnectionStrings__DefaultConnection
+      - EmailSettings__SendGridApiKey
+      - EmailSettings__FromName
+      - EmailSettings__FromAddress
+      - EmailSettings__Domain
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+        window: 10s
+    volumes:
+      - type: bind
+        source: /etc/certs
+        target: /etc/certs
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+  postgres:
+    image: arm32v7/postgres:14.2
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets:
+      - postgres_password
+    deploy:
+      placement:
+        constraints:
+          - "node.hostname==docker-host"
+networks:
+  default:
+    driver: overlay
+    ipam:
+      config:
+        - subnet: 172.0.16.0/24
+    
