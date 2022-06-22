@@ -11,4 +11,6 @@ public class UserProfile : IBaseEntity<Guid>
     public string UserId { get; set; }
 
     public string Email { get; set; }
+    
+    public virtual ICollection<Person> People { get; set; }
 }

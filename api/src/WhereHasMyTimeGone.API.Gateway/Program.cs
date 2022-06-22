@@ -3,8 +3,6 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
-using Quacker.API.Infrastructure;
-using Quacker.API.Infrastructure.Persistence;
 using WhereHasMyTimeGone.API.Application.Common.Interfaces;
 using WhereHasMyTimeGone.API.Gateway.Filters;
 using WhereHasMyTimeGone.API.Gateway.Services;

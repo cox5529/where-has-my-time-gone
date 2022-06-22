@@ -10,5 +10,10 @@ public class UserProfileConfiguration : IEntityTypeConfiguration<UserProfile>
     {
         builder.HasIndex(x => x.UserId);
         builder.HasKey(x => x.Id);
+
+        builder.HasMany(x => x.People)
+               .WithOne(x => x.UserProfile)
+               .HasForeignKey(x => x.UserProfileId)
+               .OnDelete(DeleteBehavior.Cascade);
     }
 }
