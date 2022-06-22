@@ -12,7 +12,7 @@ const props = defineProps<{
 const people = usePersonStore();
 
 function onDurationPosted(start: string, duration: number): void {
-  people.addUsage(props.person.id, { start, duration, type: 'Huddle' });
+  people.addUsage(props.person.id, { start, duration, type: 'Manual' });
 }
 </script>
 

@@ -19,7 +19,7 @@ const durationString = computed(() => {
   return `${hours}:${minutesString}:${secondsString}`;
 });
 
-let intervalHandle: number;
+let intervalHandle: any;
 
 function onStart(): void {
   start.value = new Date().getTime();

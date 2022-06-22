@@ -1,1 +1,1 @@
-export type TimeUsageType = 'Huddle' | 'Message';
+export type TimeUsageType = 'Huddle' | 'Message' | 'Manual';
