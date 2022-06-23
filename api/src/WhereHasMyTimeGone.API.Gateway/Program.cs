@@ -40,8 +40,8 @@ builder.Services.AddSwaggerGen(
             new OpenApiInfo
             {
                 Version = "v1",
-                Title = "Quacker.API",
-                Description = "Quacker: The only social media you'll ever need."
+                Title = "WhereHasMyTimeGone.API",
+                Description = "Help."
             });
 
         var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -89,6 +89,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.UseSwagger();
-app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Quacker.API v1"));
+app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WhereHasMyTimeGone.API v1"));
 
 app.Run();

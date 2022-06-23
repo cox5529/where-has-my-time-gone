@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "Quacker.API.Gateway": {
+    "WhereHasMyTimeGone.API.Gateway": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

@@ -8,19 +8,19 @@ ENV ASPNETCORE_Kestrel__Certificates__Default__Password ""
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["src/Quacker.API.Gateway/Quacker.API.Gateway.csproj", "Quacker.API.Gateway/"]
-COPY ["src/Quacker.API.Application/Quacker.API.Application.csproj", "Quacker.API.Application/"]
-COPY ["src/Quacker.API.Domain/Quacker.API.Domain.csproj", "Quacker.API.Domain/"]
-COPY ["src/Quacker.API.Infrastructure/Quacker.API.Infrastructure.csproj", "Quacker.API.Infrastructure/"]
-RUN dotnet restore "Quacker.API.Gateway/Quacker.API.Gateway.csproj"
+COPY ["src/WhereHasMyTimeGone.API.Gateway/WhereHasMyTimeGone.API.Gateway.csproj", "WhereHasMyTimeGone.API.Gateway/"]
+COPY ["src/WhereHasMyTimeGone.API.Application/WhereHasMyTimeGone.API.Application.csproj", "WhereHasMyTimeGone.API.Application/"]
+COPY ["src/WhereHasMyTimeGone.API.Domain/WhereHasMyTimeGone.API.Domain.csproj", "WhereHasMyTimeGone.API.Domain/"]
+COPY ["src/WhereHasMyTimeGone.API.Infrastructure/WhereHasMyTimeGone.API.Infrastructure.csproj", "WhereHasMyTimeGone.API.Infrastructure/"]
+RUN dotnet restore "WhereHasMyTimeGone.API.Gateway/WhereHasMyTimeGone.API.Gateway.csproj"
 COPY ./src ./
-WORKDIR "/src/Quacker.API.Gateway"
-RUN dotnet build "Quacker.API.Gateway.csproj" -c Release -o /app/build
+WORKDIR "/src/WhereHasMyTimeGone.API.Gateway"
+RUN dotnet build "WhereHasMyTimeGone.API.Gateway.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Quacker.API.Gateway.csproj" -c Release -o /app/publish
+RUN dotnet publish "WhereHasMyTimeGone.API.Gateway.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Quacker.API.Gateway.dll"]
+ENTRYPOINT ["dotnet", "WhereHasMyTimeGone.API.Gateway.dll"]
