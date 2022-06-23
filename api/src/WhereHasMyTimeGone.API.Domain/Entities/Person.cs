@@ -8,13 +8,13 @@ public class Person : IBaseEntity<int>
 
     public bool Disabled { get; set; }
 
-    public string Name { get; set; }
+    public string Name { get; set; } = "";
 
-    public string ImageUrl { get; set; }
+    public string? ImageUrl { get; set; }
 
     public Guid UserProfileId { get; set; }
 
-    public UserProfile UserProfile { get; set; }
+    public UserProfile? UserProfile { get; set; }
 
-    public virtual ICollection<TimeUsage> Usages { get; set; }
+    public virtual ICollection<TimeUsage> Usages { get; set; } = new List<TimeUsage>();
 }

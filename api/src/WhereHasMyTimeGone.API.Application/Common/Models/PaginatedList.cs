@@ -2,7 +2,7 @@ namespace WhereHasMyTimeGone.API.Application.Common.Models;
 
 public class PaginatedList<T>
 {
-    public IList<T> Items { get; set; }
+    public IList<T> Items { get; set; } = new List<T>();
 
     public int Page { get; set; }
 

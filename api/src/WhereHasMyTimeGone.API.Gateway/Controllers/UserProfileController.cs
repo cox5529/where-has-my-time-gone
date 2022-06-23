@@ -5,6 +5,7 @@ using WhereHasMyTimeGone.API.Application.Profile;
 
 namespace WhereHasMyTimeGone.API.Gateway.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/profile")]
 public class UserProfileController : Controller
@@ -16,7 +17,6 @@ public class UserProfileController : Controller
         _sender = sender;
     }
 
-    [Authorize]
     [HttpPost("me")]
     [ProducesResponseType(204)]
     public async Task<IActionResult> UpdateCurrentProfile(CancellationToken cancel = default)

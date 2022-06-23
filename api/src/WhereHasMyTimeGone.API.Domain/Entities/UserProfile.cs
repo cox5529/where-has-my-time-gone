@@ -8,9 +8,9 @@ public class UserProfile : IBaseEntity<Guid>
 
     public bool Disabled { get; set; }
 
-    public string UserId { get; set; }
+    public string UserId { get; set; } = "";
 
-    public string Email { get; set; }
-    
-    public virtual ICollection<Person> People { get; set; }
+    public string Email { get; set; } = "";
+
+    public virtual ICollection<Person> People { get; set; } = new List<Person>();
 }
