@@ -4,17 +4,6 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
   postgres:
-    image: arm32v7/postgres:14.2
     environment:
       POSTGRES_PASSWORD: password
-    deploy:
-      placement:
-        constraints:
-          - "node.hostname==docker-host"
-networks:
-  default:
-    driver: overlay
-    ipam:
-      config:
-        - subnet: 172.0.16.0/24
     
