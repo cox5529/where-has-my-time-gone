@@ -10,7 +10,11 @@ import NewPersonModal from './components/modals/NewPersonModal.vue';
 const auth = getAuth();
 
 const authStore = useAuthenticationStore();
-auth.onAuthStateChanged((user) => (authStore.user = user));
+auth.onAuthStateChanged(async (user) => {
+  authStore.user = user;
+
+  await authStore.request('/api/profile/me');
+});
 </script>
 
 <template>

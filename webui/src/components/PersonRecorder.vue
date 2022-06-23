@@ -11,8 +11,8 @@ const props = defineProps<{
 
 const people = usePersonStore();
 
-function onDurationPosted(start: string, duration: number): void {
-  people.addUsage(props.person.id, { start, duration, type: 'Manual' });
+function onDurationPosted(start: string, end: string): void {
+  people.addUsage(props.person.id, { id: 0, start, end, type: 'Manual' });
 }
 </script>
 

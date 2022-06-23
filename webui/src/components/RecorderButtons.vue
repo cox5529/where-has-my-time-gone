@@ -3,7 +3,7 @@ import { padStart } from 'lodash';
 import { computed, onUnmounted, ref } from 'vue';
 
 const emit = defineEmits<{
-  (e: 'duration-posted', start: string, duration: number): void;
+  (e: 'duration-posted', start: string, end: string): void;
 }>();
 
 const start = ref<number | null>(null);
@@ -38,7 +38,7 @@ function onStop(): void {
     emit(
       'duration-posted',
       new Date(start.value).toISOString(),
-      duration.value
+      new Date().toISOString()
     );
   }
 
