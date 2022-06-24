@@ -2,5 +2,5 @@
 
 public class SlackSettings
 {
-    public string SigningKey { get; set; }
+    public string? SigningSecret { get; set; }
 }

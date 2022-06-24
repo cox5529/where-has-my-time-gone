@@ -13,6 +13,6 @@ public class CryptographyService : ICryptographyService
 
         var hash = new HMACSHA256(keyBytes);
         var signature = hash.ComputeHash(plaintextBytes);
-        return Convert.ToHexString(signature);
+        return Convert.ToHexString(signature).ToLower();
     }
 }

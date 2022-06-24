@@ -36,15 +36,11 @@ public class SlackRequestValidatorMiddleware
             await _next(context);
             return;
         }
-        
 
         var body = await new StreamReader(context.Request.Body).ReadToEndAsync();
         var timestampString = context.Request.Headers["X-Slack-Request-Timestamp"].FirstOrDefault() ?? "0";
         var timestamp = long.Parse(timestampString);
-        var timestampAsDateTime = DateTime.FromFileTimeUtc(timestamp);
-        
-        _logger.LogCritical(JsonConvert.SerializeObject(context.Request.Headers));
-        _logger.LogCritical(body);
+        var timestampAsDateTime = DateTimeOffset.FromUnixTimeSeconds(timestamp);
 
         if (DateTime.UtcNow - timestampAsDateTime > TimeSpan.FromMinutes(5))
         {
@@ -53,7 +49,7 @@ public class SlackRequestValidatorMiddleware
         }
 
         var stringToSign = $"v0:{timestampString}:{body}";
-        var signature = $"v0={_cryptographyService.GenerateHmacSha256Signature(stringToSign, _settings.SigningKey)}";
+        var signature = $"v0={_cryptographyService.GenerateHmacSha256Signature(stringToSign, _settings.SigningSecret!)}";
         var givenSignature = context.Request.Headers["X-Slack-Signature"];
         if (signature != givenSignature)
         {

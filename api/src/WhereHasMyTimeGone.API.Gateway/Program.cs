@@ -13,13 +13,17 @@ using WhereHasMyTimeGone.API.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddKeyPerFile("/run/secrets", true);
+if (builder.Environment.IsDevelopment())
+{
+    builder.Configuration.AddUserSecrets(Assembly.GetAssembly(typeof(Program)));
+}
+
 
 // Add services to the container.
 builder.Services.AddControllers(options => options.Filters.Add<ApiExceptionFilterAttribute>())
        .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddCors(
     options =>
     {
