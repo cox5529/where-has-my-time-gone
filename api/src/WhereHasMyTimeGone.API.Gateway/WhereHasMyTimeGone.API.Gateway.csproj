@@ -6,6 +6,7 @@
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <LangVersion>10</LangVersion>
         <Nullable>enable</Nullable>
+        <UserSecretsId>24309e15-7bca-4b0c-a02e-68398a0ed369</UserSecretsId>
     </PropertyGroup>
 
     <PropertyGroup>

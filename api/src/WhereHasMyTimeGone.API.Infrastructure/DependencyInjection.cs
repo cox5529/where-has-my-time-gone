@@ -25,6 +25,7 @@ public static class DependencyInjection
         services.AddScoped<IDateTime, DateTimeService>();
         services.AddScoped<IDbContext, ApplicationDbContext>();
         services.AddScoped<IStringNormalizer, StringNormalizer>();
+        services.AddScoped<ICryptographyService, CryptographyService>();
         
         return services;
     }

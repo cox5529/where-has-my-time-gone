@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using WhereHasMyTimeGone.API.Application.Common.Interfaces;
 using WhereHasMyTimeGone.API.Gateway.Filters;
+using WhereHasMyTimeGone.API.Gateway.Middleware;
 using WhereHasMyTimeGone.API.Gateway.Services;
+using WhereHasMyTimeGone.API.Gateway.Settings;
 using WhereHasMyTimeGone.API.Infrastructure;
 using WhereHasMyTimeGone.API.Infrastructure.Persistence;
 
@@ -61,6 +63,7 @@ builder.Services.AddSwaggerGen(
     });
 
 builder.Services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
+builder.Services.Configure<SlackSettings>(builder.Configuration.GetSection("Slack"));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
        .AddJwtBearer(o => { builder.Configuration.GetSection("JWT").Bind(o); });
@@ -86,6 +89,8 @@ app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<SlackRequestValidatorMiddleware>();
 
 app.MapControllers();
 app.UseSwagger();
