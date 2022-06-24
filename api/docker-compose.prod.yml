@@ -19,6 +19,9 @@ secrets:
   EmailSettings__Domain:
     external:
       name: EmailSettings__Domain
+  Slack__SigningSecret:
+    external:
+      name: Slack__SigningSecret
   postgres_password:
     external:
       name: postgres_password
@@ -32,6 +35,7 @@ services:
       - EmailSettings__FromName
       - EmailSettings__FromAddress
       - EmailSettings__Domain
+      - Slack__SigningSecret
     deploy:
       replicas: 1
       restart_policy:
