@@ -37,7 +37,9 @@ public class SlackRequestValidatorMiddleware
             return;
         }
 
+        context.Request.EnableBuffering();
         var body = await new StreamReader(context.Request.Body).ReadToEndAsync();
+        context.Request.Body.Position = 0;
         var timestampString = context.Request.Headers["X-Slack-Request-Timestamp"].FirstOrDefault() ?? "0";
         var timestamp = long.Parse(timestampString);
         var timestampAsDateTime = DateTimeOffset.FromUnixTimeSeconds(timestamp);
@@ -50,7 +52,7 @@ public class SlackRequestValidatorMiddleware
 
         var stringToSign = $"v0:{timestampString}:{body}";
         var signature = $"v0={_cryptographyService.GenerateHmacSha256Signature(stringToSign, _settings.SigningSecret!)}";
-        var givenSignature = context.Request.Headers["X-Slack-Signature"];
+        var givenSignature = context.Request.Headers["X-Slack-Signature"].FirstOrDefault() ?? "";
         if (signature != givenSignature)
         {
             context.Response.StatusCode = 401;
