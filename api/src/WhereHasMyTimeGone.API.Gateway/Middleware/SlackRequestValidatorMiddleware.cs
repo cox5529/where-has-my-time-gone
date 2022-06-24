@@ -43,8 +43,8 @@ public class SlackRequestValidatorMiddleware
         var timestamp = long.Parse(timestampString);
         var timestampAsDateTime = DateTime.FromFileTimeUtc(timestamp);
         
-        _logger.LogTrace(JsonConvert.SerializeObject(context.Request.Headers));
-        _logger.LogTrace(body);
+        _logger.LogCritical(JsonConvert.SerializeObject(context.Request.Headers));
+        _logger.LogCritical(body);
 
         if (DateTime.UtcNow - timestampAsDateTime > TimeSpan.FromMinutes(5))
         {
