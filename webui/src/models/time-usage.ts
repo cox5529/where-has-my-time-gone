@@ -4,6 +4,6 @@ export interface TimeUsage {
   id: number;
   start: string;
   end?: string;
-  duration?: number;
+  durationSeconds?: number;
   type: TimeUsageType;
 }

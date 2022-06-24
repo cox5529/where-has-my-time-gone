@@ -46,5 +46,19 @@ export const usePersonStore = defineStore({
 
       person.usages.push(timeUsage);
     },
+
+    async load(): Promise<boolean> {
+      const authStore = useAuthenticationStore();
+
+      const response = await authStore.get('/api/usage/person', {});
+      if (!response.ok) {
+        return false;
+      }
+
+      const data: Person[] = await response.json();
+      this.people = data;
+
+      return true;
+    },
   },
 });

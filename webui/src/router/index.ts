@@ -10,6 +10,11 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
     },
+    {
+      path: '/analytics',
+      name: 'analytics',
+      component: () => import('../views/AnalyticsView.vue'),
+    },
   ],
 });
 
