@@ -1,11 +1,13 @@
-﻿namespace WhereHasMyTimeGone.API.Application.Slack;
+﻿using WhereHasMyTimeGone.API.Application.Common.Models;
+
+namespace WhereHasMyTimeGone.API.Application.Slack;
 
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
 
-public class GetSlackChallengeQuery : IRequest<GetSlackChallengeQueryResponse>
+public class GetSlackChallengeQuery : IRequest<GetSlackChallengeQueryResponse>, ISlackEvent
 {
     public string? Challenge { get; set; }
 
