@@ -24,6 +24,11 @@ public class SlackIntegrationController : Controller
     [HttpPost("")]
     public async Task<IActionResult> Event(SlackEvent request, CancellationToken cancel = default)
     {
+        Request.Body.Position = 0;
+        var json = await new StreamReader(Request.Body).ReadToEndAsync();
+        
+        _logger.LogCritical(json);
+        
         if (request.Type == "url_verification")
         {
             var result = await ProcessEvent<GetSlackChallengeQuery, GetSlackChallengeQueryResponse>(cancel);

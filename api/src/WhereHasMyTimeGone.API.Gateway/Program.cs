@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging.Console;
 using Microsoft.OpenApi.Models;
 using WhereHasMyTimeGone.API.Application.Common.Interfaces;
 using WhereHasMyTimeGone.API.Gateway.Filters;
@@ -18,8 +19,9 @@ if (builder.Environment.IsDevelopment())
     builder.Configuration.AddUserSecrets(Assembly.GetAssembly(typeof(Program)));
 }
 
-
 // Add services to the container.
+builder.Logging.AddSimpleConsole(b => b.ColorBehavior = LoggerColorBehavior.Enabled);
+
 builder.Services.AddControllers(options => options.Filters.Add<ApiExceptionFilterAttribute>())
        .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
