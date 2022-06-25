@@ -12,8 +12,6 @@ public class GetSlackChallengeQuery : SlackEvent, IRequest<GetSlackChallengeQuer
     public string? Challenge { get; set; }
 
     public string? Token { get; set; }
-
-    public string? Type { get; set; }
 }
 
 public class GetSlackChallengeQueryResponse

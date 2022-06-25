@@ -36,6 +36,7 @@ public class SlackIntegrationController : Controller
     private async Task<TResponse> ProcessEvent<TRequest, TResponse>(CancellationToken cancel = default)
         where TRequest : SlackEvent, IRequest<TResponse>
     {
+        Request.Body.Position = 0;
         var json = await new StreamReader(Request.Body).ReadToEndAsync();
         var body = JsonConvert.DeserializeObject<TRequest>(json);
         

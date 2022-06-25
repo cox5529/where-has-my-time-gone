@@ -2,5 +2,5 @@
 
 public class SlackEvent
 {
-    public string Type { get; }
+    public string Type { get; set; }
 }
