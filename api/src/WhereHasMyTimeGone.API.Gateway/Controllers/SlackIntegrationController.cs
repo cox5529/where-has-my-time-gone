@@ -22,7 +22,7 @@ public class SlackIntegrationController : Controller
     }
 
     [HttpPost("")]
-    public async Task<IActionResult> Event(ISlackEvent request, CancellationToken cancel = default)
+    public async Task<IActionResult> Event(SlackEvent request, CancellationToken cancel = default)
     {
         if (request.Type == "url_verification")
         {
@@ -34,7 +34,7 @@ public class SlackIntegrationController : Controller
     }
 
     private async Task<TResponse> ProcessEvent<TRequest, TResponse>(CancellationToken cancel = default)
-        where TRequest : ISlackEvent, IRequest<TResponse>
+        where TRequest : SlackEvent, IRequest<TResponse>
     {
         var json = await new StreamReader(Request.Body).ReadToEndAsync();
         var body = JsonConvert.DeserializeObject<TRequest>(json);

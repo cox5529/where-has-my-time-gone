@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
 
-public class GetSlackChallengeQuery : IRequest<GetSlackChallengeQueryResponse>, ISlackEvent
+public class GetSlackChallengeQuery : SlackEvent, IRequest<GetSlackChallengeQueryResponse>
 {
     public string? Challenge { get; set; }
 

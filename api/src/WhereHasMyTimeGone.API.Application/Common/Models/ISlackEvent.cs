@@ -1,6 +1,6 @@
 ﻿namespace WhereHasMyTimeGone.API.Application.Common.Models;
 
-public interface ISlackEvent
+public class SlackEvent
 {
     public string Type { get; }
 }
