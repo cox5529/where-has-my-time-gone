@@ -34,6 +34,7 @@ public class UpdateProfileCommandHandler : IRequestHandler<UpdateProfileCommand>
         }
 
         var profile = await _context.Set<UserProfile>().FirstOrDefaultAsync(x => x.UserId == _currentUserService.UserId, cancel)
+                   ?? await _context.Set<UserProfile>().FirstOrDefaultAsync(x => x.Email == _currentUserService.Email, cancel)
                    ?? new UserProfile();
 
         profile.Email = _currentUserService.Email;

@@ -1,4 +1,5 @@
 ﻿using WhereHasMyTimeGone.API.Application.Common.Models;
+using WhereHasMyTimeGone.API.Application.Common.Models.Slack;
 
 namespace WhereHasMyTimeGone.API.Application.Slack;
 

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WhereHasMyTimeGone.API.Application;
 using WhereHasMyTimeGone.API.Application.Common.Interfaces;
+using WhereHasMyTimeGone.API.Application.Common.Settings;
 using WhereHasMyTimeGone.API.Infrastructure.Persistence;
 using WhereHasMyTimeGone.API.Infrastructure.Services;
 

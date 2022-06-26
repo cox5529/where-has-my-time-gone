@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WhereHasMyTimeGone.API.Application.Common.Models;
+using WhereHasMyTimeGone.API.Application.Common.Models.Slack;
 using WhereHasMyTimeGone.API.Application.Slack;
 using WhereHasMyTimeGone.API.Gateway.Attributes;
 
@@ -22,31 +23,42 @@ public class SlackIntegrationController : Controller
     }
 
     [HttpPost("")]
-    public async Task<IActionResult> Event(SlackEvent request, CancellationToken cancel = default)
+    public async Task<IActionResult> Event(SlackEventBase request, CancellationToken cancel = default)
     {
-        Request.Body.Position = 0;
-        var json = await new StreamReader(Request.Body).ReadToEndAsync();
-        
-        _logger.LogCritical(json);
-        
         if (request.Type == "url_verification")
         {
             var result = await ProcessEvent<GetSlackChallengeQuery, GetSlackChallengeQueryResponse>(cancel);
             return Ok(result);
         }
 
-        return NotFound();
+        if (request.Type != "event_callback")
+        {
+            return NotFound();
+        }
+
+        var body = await ParseRequestBody<SlackEvent<SlackEventBase>>();
+        if (body.Event?.Type != "user_huddle_changed")
+        {
+            return NotFound();
+        }
+
+        await ProcessEvent<InsertHuddleStateCommand, Unit>(cancel);
+        return NoContent();
+
     }
 
     private async Task<TResponse> ProcessEvent<TRequest, TResponse>(CancellationToken cancel = default)
         where TRequest : SlackEvent, IRequest<TResponse>
     {
+        var body = await ParseRequestBody<TRequest>();
+        return await _sender.Send(body, cancel);
+    }
+
+    private async Task<TRequest> ParseRequestBody<TRequest>()
+    {
         Request.Body.Position = 0;
         var json = await new StreamReader(Request.Body).ReadToEndAsync();
         var body = JsonConvert.DeserializeObject<TRequest>(json);
-        
-        _logger.LogCritical(json);
-
-        return await _sender.Send(body, cancel);
+        return body;
     }
 }

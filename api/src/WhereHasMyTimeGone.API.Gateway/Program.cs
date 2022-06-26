@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.OpenApi.Models;
 using WhereHasMyTimeGone.API.Application.Common.Interfaces;
+using WhereHasMyTimeGone.API.Application.Common.Settings;
 using WhereHasMyTimeGone.API.Gateway.Filters;
 using WhereHasMyTimeGone.API.Gateway.Middleware;
 using WhereHasMyTimeGone.API.Gateway.Services;

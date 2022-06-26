@@ -22,6 +22,9 @@ secrets:
   Slack__SigningSecret:
     external:
       name: Slack__SigningSecret
+  Slack__TeamId:
+    external:
+      name: Slack__TeamId
   postgres_password:
     external:
       name: postgres_password
