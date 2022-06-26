@@ -34,11 +34,12 @@ public class InsertHuddleStateCommandHandler : IRequestHandler<InsertHuddleState
     public async Task<Unit> Handle(InsertHuddleStateCommand request, CancellationToken cancel)
     {
         var time = DateTimeOffset.FromUnixTimeSeconds(request.EventTime).UtcDateTime;
+        var email = request.Event!.User!.Profile!.Email!;
         if (request.Event!.User!.Profile!.HuddleState == "default_unset")
         {
             var lastHuddle = await _context.Set<Huddle>()
                                            .Include(x => x.UserProfile)
-                                           .Where(x => x.End == null && x.UserProfile!.Email == request.Event.User.Profile.Email)
+                                           .Where(x => x.End == null && x.UserProfile!.Email == email)
                                            .OrderByDescending(x => x.Start)
                                            .FirstOrDefaultAsync(cancel);
 
@@ -49,6 +50,7 @@ public class InsertHuddleStateCommandHandler : IRequestHandler<InsertHuddleState
 
             lastHuddle.UserProfile!.ProfileImage = request.Event.User.Profile.Image512;
             lastHuddle.End = time;
+            _logger.LogInformation($"Ending huddle for {email}.");
         }
         else
         {
@@ -58,20 +60,22 @@ public class InsertHuddleStateCommandHandler : IRequestHandler<InsertHuddleState
             };
 
             var profile = await _context.Set<UserProfile>()
-                                        .FirstOrDefaultAsync(x => x.Email == request.Event.User.Profile.Email, cancel);
+                                        .FirstOrDefaultAsync(x => x.Email == email, cancel);
             if (profile == null)
             {
                 profile = new UserProfile
                 {
-                    Email = request.Event.User.Profile.Email!,
+                    Email = email,
                     ProfileImage = request.Event.User.Profile.Image512,
                     Disabled = false,
                     Id = Guid.NewGuid()
                 };
 
+                _logger.LogInformation($"Creating shadow profile for {email}.");
                 await _context.Set<UserProfile>().AddAsync(profile, cancel);
             }
 
+            _logger.LogInformation($"Starting huddle for {email}.");
             huddle.UserProfileId = profile.Id;
             await _context.Set<Huddle>().AddAsync(huddle, cancel);
         }

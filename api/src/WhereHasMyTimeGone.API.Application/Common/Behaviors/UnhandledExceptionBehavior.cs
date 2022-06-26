@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using ApplicationException = WhereHasMyTimeGone.API.Application.Common.Exceptions.ApplicationException;
 
 namespace WhereHasMyTimeGone.API.Application.Common.Behaviors;
@@ -28,15 +29,11 @@ public class UnhandledExceptionBehavior<TRequest, TResponse> : IPipelineBehavior
             var requestName = typeof(TRequest).Name;
             if (ex is not ApplicationException)
             {
-                _logger.LogError(
-                    ex,
-                    "CleanArchitecture Request: Unhandled Exception for Request {Name} {@Request}",
-                    requestName,
-                    request);
+                _logger.LogError(ex, "Request: Unhandled Exception for Request {Name} {@Request}", requestName, request);
             }
             else
             {
-                _logger.LogInformation($"CleanArchitecture Request: Handled Exception for Request {requestName} {request}");
+                _logger.LogInformation($"Request: Handled Exception for Request {requestName} {ex.Message}");
             }
 
             throw;

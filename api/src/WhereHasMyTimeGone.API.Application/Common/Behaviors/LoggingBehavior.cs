@@ -1,5 +1,6 @@
 ﻿using MediatR.Pipeline;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using WhereHasMyTimeGone.API.Application.Common.Interfaces;
 
 namespace WhereHasMyTimeGone.API.Application.Common.Behaviors;
@@ -20,7 +21,7 @@ public class LoggingBehavior<TRequest> : IRequestPreProcessor<TRequest> where TR
         var requestName = typeof(TRequest).Name;
         var userId = _currentUserService.UserId ?? default;
 
-        _logger.LogInformation("CleanArchitecture Request: {Name} {@UserId} {@Request}", requestName, userId, request);
+        _logger.LogInformation("Request: {Name} {@UserId} {@Request}", requestName, userId, JsonConvert.SerializeObject(request));
         return Task.CompletedTask;
     }
 }
