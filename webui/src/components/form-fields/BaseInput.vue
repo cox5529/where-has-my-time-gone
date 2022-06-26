@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { Field, useFieldError } from 'vee-validate';
+import FormLabel from './FormLabel.vue';
 import { computed } from 'vue';
 import { ref } from 'vue';
-import type * as Yup from 'yup';
 
-import FormLabel from './FormLabel.vue';
+import { Field, useFieldError } from 'vee-validate';
+import type * as Yup from 'yup';
 
 const props = defineProps<{
   modelValue?: string;

@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { useAuthenticationStore } from '@/stores/authentication';
+import { computed } from 'vue';
+
 import {
   getAuth,
   GoogleAuthProvider,
   signInWithPopup,
   signOut,
 } from 'firebase/auth';
-import { computed } from 'vue';
+
+import { useAuthenticationStore } from '@/stores/authentication';
 
 const provider = new GoogleAuthProvider();
 const auth = getAuth();

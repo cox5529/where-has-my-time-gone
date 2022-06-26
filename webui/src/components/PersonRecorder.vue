@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { Person } from '@/models/person';
-import { usePersonStore } from '@/stores/people';
-
 import ProfileImage from './ProfileImage.vue';
 import RecorderButtons from './RecorderButtons.vue';
+
+import type { Person } from '@/models/person';
+import { usePersonStore } from '@/stores/people';
 
 const props = defineProps<{
   person: Person;

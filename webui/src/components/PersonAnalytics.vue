@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import type { Person } from '@/models/person';
-import moment from 'moment';
+import SectionHeader from './typography/SectionHeader.vue';
 import { computed } from 'vue';
 
-import SectionHeader from './typography/SectionHeader.vue';
+import moment from 'moment';
+
+import type { Person } from '@/models/person';
 
 const props = defineProps<{ person: Person }>();
 

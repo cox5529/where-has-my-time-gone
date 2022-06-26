@@ -1,4 +1,17 @@
+import App from './App.vue';
+import { createApp } from 'vue';
+
+import { initializeApp } from 'firebase/app';
+import { createPinia } from 'pinia';
+
+import router from './router';
+import {
+  browserLocalPersistence,
+  getAuth,
+  setPersistence,
+} from '@firebase/auth';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import {
   faCirclePlay,
   faCirclePlus,
@@ -7,17 +20,8 @@ import {
   faUserCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { initializeApp } from 'firebase/app';
-import { createPinia } from 'pinia';
-import { createApp } from 'vue';
-
-import router from './router';
 
 import './index.css';
-
-import App from './App.vue';
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
-import { browserLocalPersistence, getAuth, setPersistence } from '@firebase/auth';
 
 var firebaseConfig = {
   apiKey: 'AIzaSyC4piMlw29usc_TebF_EBKkm5fTfn34-Ns',

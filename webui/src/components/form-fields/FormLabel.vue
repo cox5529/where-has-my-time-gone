@@ -1,3 +1,6 @@
 <template>
-  <label class="text-sm block"><slot></slot></label>
+  <label class="text-sm block">
+    <slot></slot>
+  </label>
 </template>
+;

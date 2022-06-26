@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { useAuthenticationStore } from '@/stores/authentication';
-import { computed } from 'vue';
-
 import GoogleSignInButton from './GoogleSignInButton.vue';
 import NavigationLink from './NavigationLink.vue';
+import { computed } from 'vue';
+
+import { useAuthenticationStore } from '../stores/authentication';
 
 const authStore = useAuthenticationStore();
 
 const email = computed(() => authStore.user?.email);
+const loggedIn = computed(() => !!authStore.isLoggedIn);
 </script>
 
 <template>
@@ -17,6 +18,7 @@ const email = computed(() => authStore.user?.email);
     <div class="flex gap-4 items-center">
       <NavigationLink to="/">Home</NavigationLink>
       <NavigationLink to="/analytics">Analytics</NavigationLink>
+      <NavigationLink v-if="loggedIn" to="/huddles">Huddles</NavigationLink>
     </div>
     <div class="flex gap-8 items-center">
       <p v-if="email">Hello, {{ email }}</p>

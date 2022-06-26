@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { usePersonStore } from '@/stores/people';
+import PersonAnalytics from '../components/PersonAnalytics.vue';
 import { computed } from 'vue';
 
-import PersonAnalytics from '../components/PersonAnalytics.vue';
+import { usePersonStore } from '@/stores/people';
 
 const personStore = usePersonStore();
 const people = computed(() => personStore.people);
+await personStore.load();
 </script>
 
 <template>

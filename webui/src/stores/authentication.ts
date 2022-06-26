@@ -1,20 +1,27 @@
-import { getIdToken, type User } from '@firebase/auth';
 import { defineStore } from 'pinia';
+
+import { getIdToken, type User } from '@firebase/auth';
 
 type RequestMethod = 'post' | 'get' | 'put';
 
 export interface AuthenticationState {
   user?: User | null;
+  isLoggedIn?: boolean;
 }
 
 export const useAuthenticationStore = defineStore({
   id: 'authentication',
   state: (): AuthenticationState => ({
     user: undefined,
+    isLoggedIn: undefined,
   }),
   getters: {
     async authToken(): Promise<string | null> {
       return this.user ? await getIdToken(this.user) : null;
+    },
+
+    isLoginStateKnown(): boolean {
+      return this.isLoggedIn !== undefined;
     },
   },
   actions: {
@@ -24,7 +31,10 @@ export const useAuthenticationStore = defineStore({
       init?: RequestInit
     ): Promise<Response> {
       const qs = Object.entries(parameters)
-        .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+        .map(
+          ([key, value]) =>
+            `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+        )
         .join('&');
       path += `?${qs}`;
       return await this.request(path, 'get', init);

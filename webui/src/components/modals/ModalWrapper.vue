@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { useModalStore, type ModalState } from '@/stores/modals';
 import { computed } from 'vue';
+
+import { useModalStore, type ModalState } from '@/stores/modals';
 
 const props = defineProps<{ name: keyof ModalState }>();
 

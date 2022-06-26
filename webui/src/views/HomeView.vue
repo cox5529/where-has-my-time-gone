@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { usePersonStore } from '@/stores/people';
-
 import AddPersonButton from '../components/AddPersonButton.vue';
 import PersonRecorder from '../components/PersonRecorder.vue';
 
+import { usePersonStore } from '@/stores/people';
+
 const people = usePersonStore();
+await people.load();
 </script>
 
 <template>

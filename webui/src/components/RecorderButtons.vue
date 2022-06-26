@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { padStart } from 'lodash';
 import { computed, onUnmounted, ref } from 'vue';
+
+import { padStart } from 'lodash';
 
 const emit = defineEmits<{
   (e: 'duration-posted', start: string, end: string): void;

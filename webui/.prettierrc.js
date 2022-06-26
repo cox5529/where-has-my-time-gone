@@ -3,10 +3,6 @@ module.exports = {
   semi: true,
   singleQuote: true,
   jsxSingleQuote: true,
-  importOrder: ['^react$', '^[^\\.]*$', '^((\\./)|(\\.\\./))+[^\\.]+$', '^\\..*.css$', '^(\\./)[^\\.]+.*$', '^.*$'],
+  importOrder: ['^(react)|(vue)$', '^[^\\.@]*$', '^(@|(\\./)|(\\.\\./))+[^\\.]+$', '^\\..*.css$', '^(\\./)[^\\.]+.*$', '^.*$'],
   importOrderSeparation: true,
-  importOrderParserPlugins: [
-    "typescript",
-    "[\"decorators\", { \"decoratorsBeforeExport\": true }]"
-  ]
 };
