@@ -11,8 +11,6 @@ using MediatR;
 public class GetSlackChallengeQuery : SlackEvent, IRequest<GetSlackChallengeQueryResponse>
 {
     public string? Challenge { get; set; }
-
-    public string? Token { get; set; }
 }
 
 public class GetSlackChallengeQueryResponse
