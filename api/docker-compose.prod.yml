@@ -39,6 +39,7 @@ services:
       - EmailSettings__FromAddress
       - EmailSettings__Domain
       - Slack__SigningSecret
+      - Slack__TeamId
     deploy:
       replicas: 1
       restart_policy:
