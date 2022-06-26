@@ -35,14 +35,14 @@ public class InsertHuddleStateCommandHandler : IRequestHandler<InsertHuddleState
     {
         var time = DateTimeOffset.FromUnixTimeSeconds(request.EventTime).UtcDateTime;
         var email = request.Event!.User!.Profile!.Email!;
+        var lastHuddle = await _context.Set<Huddle>()
+                                       .Include(x => x.UserProfile)
+                                       .Where(x => x.End == null && x.UserProfile!.Email == email)
+                                       .OrderByDescending(x => x.Start)
+                                       .FirstOrDefaultAsync(cancel);
+
         if (request.Event!.User!.Profile!.HuddleState == "default_unset")
         {
-            var lastHuddle = await _context.Set<Huddle>()
-                                           .Include(x => x.UserProfile)
-                                           .Where(x => x.End == null && x.UserProfile!.Email == email)
-                                           .OrderByDescending(x => x.Start)
-                                           .FirstOrDefaultAsync(cancel);
-
             if (lastHuddle == null)
             {
                 return Unit.Value;
@@ -52,15 +52,14 @@ public class InsertHuddleStateCommandHandler : IRequestHandler<InsertHuddleState
             lastHuddle.End = time;
             _logger.LogInformation($"Ending huddle for {email}.");
         }
-        else
+        else if (lastHuddle != null)
         {
             var huddle = new Huddle
             {
                 Start = time,
             };
 
-            var profile = await _context.Set<UserProfile>()
-                                        .FirstOrDefaultAsync(x => x.Email == email, cancel);
+            var profile = await _context.Set<UserProfile>().FirstOrDefaultAsync(x => x.Email == email, cancel);
             if (profile == null)
             {
                 profile = new UserProfile
@@ -89,7 +88,10 @@ public class InsertHuddleStateCommandValidator : AbstractValidator<InsertHuddleS
 {
     public InsertHuddleStateCommandValidator(IOptions<SlackSettings> settings)
     {
-        RuleFor(x => x.TeamId).Equal(settings.Value.TeamId).WithMessage("This request is not for the correct team.");
-        RuleFor(x => x.Event).Must(x => x?.User?.Profile?.Email != null).WithMessage("Event must be fully-populated.");
+        RuleFor(x => x.Event)
+           .Must(x => x?.User?.Profile?.Email != null)
+           .WithMessage("Event must be fully-populated.")
+           .Must(x => x?.User?.TeamId == settings.Value.TeamId)
+           .WithMessage("This request is not for the correct team.");
     }
 }
