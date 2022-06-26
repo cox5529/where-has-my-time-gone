@@ -52,7 +52,7 @@ public class InsertHuddleStateCommandHandler : IRequestHandler<InsertHuddleState
             lastHuddle.End = time;
             _logger.LogInformation($"Ending huddle for {email}.");
         }
-        else if (lastHuddle != null)
+        else if (lastHuddle == null)
         {
             var huddle = new Huddle
             {
