@@ -3,16 +3,13 @@ using WhereHasMyTimeGone.API.Application.Common.Exceptions;
 using WhereHasMyTimeGone.API.Application.Common.Interfaces;
 using WhereHasMyTimeGone.API.Application.Common.Security;
 using WhereHasMyTimeGone.API.Domain.Entities;
-
-namespace WhereHasMyTimeGone.API.Application.Slack;
-
-using System.Threading;
-using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
 
+namespace WhereHasMyTimeGone.API.Application.Slack;
+
 [Authorize]
-public class FetchHuddlesQuery : IRequest<IEnumerable<FetchHuddlesQueryResponse>>
+public class FetchHuddlesQuery : IRequest<FetchHuddlesQueryResponse>
 {
     public DateOnly? Date { get; set; }
 
@@ -20,6 +17,14 @@ public class FetchHuddlesQuery : IRequest<IEnumerable<FetchHuddlesQueryResponse>
 }
 
 public class FetchHuddlesQueryResponse
+{
+    public DateTime Start { get; set; }
+
+    public IEnumerable<FetchHuddlesQueryProfileResponse> Profiles { get; set; } =
+        new List<FetchHuddlesQueryProfileResponse>();
+}
+
+public class FetchHuddlesQueryProfileResponse
 {
     public Guid UserProfileId { get; set; }
 
@@ -39,7 +44,7 @@ public class FetchHuddlesQueryHuddleResponse
     public IEnumerable<Guid> Groups { get; set; } = new List<Guid>();
 }
 
-public class FetchHuddlesQueryHandler : IRequestHandler<FetchHuddlesQuery, IEnumerable<FetchHuddlesQueryResponse>>
+public class FetchHuddlesQueryHandler : IRequestHandler<FetchHuddlesQuery, FetchHuddlesQueryResponse>
 {
     private readonly IDbContext _context;
     private readonly ICurrentProfileService _currentProfileService;
@@ -50,7 +55,7 @@ public class FetchHuddlesQueryHandler : IRequestHandler<FetchHuddlesQuery, IEnum
         _currentProfileService = currentProfileService;
     }
 
-    public async Task<IEnumerable<FetchHuddlesQueryResponse>> Handle(FetchHuddlesQuery request, CancellationToken cancel)
+    public async Task<FetchHuddlesQueryResponse> Handle(FetchHuddlesQuery request, CancellationToken cancel)
     {
         var profile = await _currentProfileService.GetCurrentProfileAsync(cancel);
         var hasHuddles = await _context.Set<Huddle>().AnyAsync(x => x.UserProfileId == profile!.Id, cancel);
@@ -60,41 +65,46 @@ public class FetchHuddlesQueryHandler : IRequestHandler<FetchHuddlesQuery, IEnum
         }
 
         var start = request.Date!.Value.ToDateTime(TimeOnly.MinValue, DateTimeKind.Utc)
-                  - TimeSpan.FromMinutes(request.TimezoneOffset);
+                    - TimeSpan.FromMinutes(request.TimezoneOffset);
         var end = start + TimeSpan.FromDays(1);
 
         var huddles = await _context.Set<Huddle>()
-                                    .Include(x => x.HuddleLinks)
-                                    .Where(x => x.Start >= start && x.Start <= end)
-                                    .ToListAsync(cancel);
+            .Include(x => x.HuddleLinks)
+            .Where(x => x.Start >= start && x.Start <= end)
+            .ToListAsync(cancel);
 
         var huddleGroups = huddles.GroupBy(x => x.UserProfileId);
 
         var profiles = await _context.Set<UserProfile>()
-                                     .Where(x => x.Huddles.Any())
-                                     .OrderByDescending(x => x.Huddles.Count)
-                                     .ToListAsync(cancel);
+            .Where(x => x.Huddles.Any())
+            .OrderByDescending(x => x.Huddles.Count)
+            .ToListAsync(cancel);
 
-        return profiles.Select(
-                            x => new FetchHuddlesQueryResponse
-                            {
-                                Name = x.DisplayName ?? "",
-                                ProfileImage = x.ProfileImage,
-                                UserProfileId = x.Id,
-                                Huddles = huddleGroups.FirstOrDefault(g => g.Key == x.Id)
-                                                     ?.Select(
-                                                           e => new FetchHuddlesQueryHuddleResponse
-                                                           {
-                                                               Start = e.Start,
-                                                               End = e.End ?? DateTime.UtcNow,
-                                                               Groups = e.HuddleLinks.Where(l => l.Group!.OwnerId == profile!.Id)
-                                                                         .Select(l => l.GroupId)
-                                                                         .ToList()
-                                                           })
-                                                      .ToList()
-                                       ?? new List<FetchHuddlesQueryHuddleResponse>()
-                            })
-                       .ToList();
+        var profileResponses = profiles.Select(
+                x => new FetchHuddlesQueryProfileResponse
+                {
+                    Name = x.DisplayName ?? "",
+                    ProfileImage = x.ProfileImage,
+                    UserProfileId = x.Id,
+                    Huddles = huddleGroups.FirstOrDefault(g => g.Key == x.Id)
+                                  ?.Select(
+                                      e => new FetchHuddlesQueryHuddleResponse
+                                      {
+                                          Start = e.Start,
+                                          End = e.End ?? DateTime.UtcNow,
+                                          Groups = e.HuddleLinks.Where(l => l.Group!.OwnerId == profile!.Id)
+                                              .Select(l => l.GroupId)
+                                              .ToList()
+                                      })
+                                  .ToList()
+                              ?? new List<FetchHuddlesQueryHuddleResponse>()
+                })
+            .ToList();
+
+        return new FetchHuddlesQueryResponse
+        {
+            Profiles = profileResponses, Start = start
+        };
     }
 }
 

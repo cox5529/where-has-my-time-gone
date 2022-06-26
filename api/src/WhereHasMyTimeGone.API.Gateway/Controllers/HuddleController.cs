@@ -19,7 +19,7 @@ public class HuddleController : Controller
     }
 
     [HttpGet("")]
-    [ProducesResponseType(typeof(IEnumerable<FetchHuddlesQueryResponse>), 200)]
+    [ProducesResponseType(typeof(FetchHuddlesQueryResponse), 200)]
     public async Task<IActionResult> FetchHuddlesForDate(DateTime? date, int? timezoneOffset, CancellationToken cancel = default)
     {
         var result = await _sender.Send(
