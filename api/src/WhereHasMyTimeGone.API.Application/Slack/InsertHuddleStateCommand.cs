@@ -49,6 +49,7 @@ public class InsertHuddleStateCommandHandler : IRequestHandler<InsertHuddleState
             }
 
             lastHuddle.UserProfile!.ProfileImage = request.Event.User.Profile.Image512;
+            lastHuddle.UserProfile!.DisplayName = request.Event.User.Profile.RealName;
             lastHuddle.End = time;
             _logger.LogInformation($"Ending huddle for {email}.");
         }
