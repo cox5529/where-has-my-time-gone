@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EA84A84A-030C-43EA-BA34-4B085915952F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{EA3457C2-7BC4-43DD-925B-84B709596FB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhereHasMyTimeGone.API.Gateway", "src\WhereHasMyTimeGone.API.Gateway\WhereHasMyTimeGone.API.Gateway.csproj", "{48D90552-DFDE-4BFD-ADB2-24A1A237B21C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhereHasMyTimeGone.API.Application", "src\WhereHasMyTimeGone.API.Application\WhereHasMyTimeGone.API.Application.csproj", "{D2E50FD3-5301-4535-85A4-6F789D624BAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhereHasMyTimeGone.API.Infrastructure", "src\WhereHasMyTimeGone.API.Infrastructure\WhereHasMyTimeGone.API.Infrastructure.csproj", "{1F04A07E-B401-425E-A35C-CA57804DE5AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhereHasMyTimeGone.API.Domain", "src\WhereHasMyTimeGone.API.Domain\WhereHasMyTimeGone.API.Domain.csproj", "{D073A2AF-245A-4241-B64B-319052C597BB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{48D90552-DFDE-4BFD-ADB2-24A1A237B21C} = {EA84A84A-030C-43EA-BA34-4B085915952F}
+		{D2E50FD3-5301-4535-85A4-6F789D624BAF} = {EA84A84A-030C-43EA-BA34-4B085915952F}
+		{1F04A07E-B401-425E-A35C-CA57804DE5AA} = {EA84A84A-030C-43EA-BA34-4B085915952F}
+		{D073A2AF-245A-4241-B64B-319052C597BB} = {EA84A84A-030C-43EA-BA34-4B085915952F}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{48D90552-DFDE-4BFD-ADB2-24A1A237B21C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48D90552-DFDE-4BFD-ADB2-24A1A237B21C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48D90552-DFDE-4BFD-ADB2-24A1A237B21C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48D90552-DFDE-4BFD-ADB2-24A1A237B21C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2E50FD3-5301-4535-85A4-6F789D624BAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2E50FD3-5301-4535-85A4-6F789D624BAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2E50FD3-5301-4535-85A4-6F789D624BAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2E50FD3-5301-4535-85A4-6F789D624BAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F04A07E-B401-425E-A35C-CA57804DE5AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F04A07E-B401-425E-A35C-CA57804DE5AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F04A07E-B401-425E-A35C-CA57804DE5AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F04A07E-B401-425E-A35C-CA57804DE5AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D073A2AF-245A-4241-B64B-319052C597BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D073A2AF-245A-4241-B64B-319052C597BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D073A2AF-245A-4241-B64B-319052C597BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D073A2AF-245A-4241-B64B-319052C597BB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
