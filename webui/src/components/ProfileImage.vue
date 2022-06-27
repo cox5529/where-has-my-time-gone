@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{ url?: string; name: string }>();
-const classList = 'w-40 h-40 object-cover rounded-full';
+const classList = 'object-cover rounded-full';
 </script>
 
 <template>

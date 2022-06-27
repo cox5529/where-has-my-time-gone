@@ -22,9 +22,12 @@ auth.onAuthStateChanged(async (user) => {
 </script>
 
 <template>
-  <div class="bg-slate-900 min-h-screen">
-    <TopNavbar />
-    <div class="text-white p-8" v-if="authStore.isLoggedIn !== undefined">
+  <div class="bg-slate-900 h-screen flex flex-col">
+    <TopNavbar class="flex-shrink-0" />
+    <div
+      class="text-white p-8 flex-shrink overflow-auto"
+      v-if="authStore.isLoggedIn !== undefined"
+    >
       <Suspense>
         <RouterView />
 

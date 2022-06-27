@@ -13,6 +13,8 @@ import {
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import {
+  faArrowLeft,
+  faArrowRight,
   faCirclePlay,
   faCirclePlus,
   faCircleStop,
@@ -43,7 +45,9 @@ library.add(
   faCirclePlay,
   faCircleStop,
   faCircleXmark,
-  faGoogle
+  faGoogle,
+  faArrowLeft,
+  faArrowRight
 );
 const app = createApp(App).component('font-awesome-icon', FontAwesomeIcon);
 

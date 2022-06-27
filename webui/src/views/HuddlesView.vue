@@ -1,18 +1,20 @@
 <script setup lang="ts">
+import HuddleDataView from '../components/huddles/HuddleDataView.vue';
+import HuddleDatePicker from '../components/huddles/HuddleDatePicker.vue';
+import { ref } from 'vue';
+
 import moment from 'moment';
 
-import type { FetchHuddlesResponse } from '@/models/responses/fetch-huddles-response';
-import { useAuthenticationStore } from '@/stores/authentication';
+const date = ref(moment().startOf('day').toISOString());
 
-const authStore = useAuthenticationStore();
-
-const date = moment().format('yyyy-MM-DD');
-const offset = new Date().getTimezoneOffset();
-
-const response = await authStore.get('/api/huddle', {});
-const huddles = (await response.json()) as FetchHuddlesResponse[];
+function updateHuddleData(newDate: string) {
+  date.value = newDate;
+}
 </script>
 
 <template>
-  <span> {{ huddles?.length }}</span>
+  <div class="flex flex-col max-h-full">
+    <HuddleDatePicker @date-change="updateHuddleData" />
+    <HuddleDataView :date="date" />
+  </div>
 </template>

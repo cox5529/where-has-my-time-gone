@@ -20,8 +20,7 @@ public class FetchHuddlesQueryResponse
 {
     public DateTime Start { get; set; }
 
-    public IEnumerable<FetchHuddlesQueryProfileResponse> Profiles { get; set; } =
-        new List<FetchHuddlesQueryProfileResponse>();
+    public IEnumerable<FetchHuddlesQueryProfileResponse> Profiles { get; set; } = new List<FetchHuddlesQueryProfileResponse>();
 }
 
 public class FetchHuddlesQueryProfileResponse
@@ -65,45 +64,49 @@ public class FetchHuddlesQueryHandler : IRequestHandler<FetchHuddlesQuery, Fetch
         }
 
         var start = request.Date!.Value.ToDateTime(TimeOnly.MinValue, DateTimeKind.Utc)
-                    - TimeSpan.FromMinutes(request.TimezoneOffset);
+                  - TimeSpan.FromMinutes(request.TimezoneOffset);
         var end = start + TimeSpan.FromDays(1);
 
         var huddles = await _context.Set<Huddle>()
-            .Include(x => x.HuddleLinks)
-            .Where(x => x.Start >= start && x.Start <= end)
-            .ToListAsync(cancel);
+                                    .Include(x => x.HuddleLinks)
+                                    .Where(x => x.Start >= start && x.Start <= end)
+                                    .ToListAsync(cancel);
 
         var huddleGroups = huddles.GroupBy(x => x.UserProfileId);
 
         var profiles = await _context.Set<UserProfile>()
-            .Where(x => x.Huddles.Any())
-            .OrderByDescending(x => x.Huddles.Count)
-            .ToListAsync(cancel);
+                                     .Where(x => x.Huddles.Any())
+                                     .OrderByDescending(x => x.Huddles.Count)
+                                     .ToListAsync(cancel);
 
         var profileResponses = profiles.Select(
-                x => new FetchHuddlesQueryProfileResponse
-                {
-                    Name = x.DisplayName ?? "",
-                    ProfileImage = x.ProfileImage,
-                    UserProfileId = x.Id,
-                    Huddles = huddleGroups.FirstOrDefault(g => g.Key == x.Id)
-                                  ?.Select(
-                                      e => new FetchHuddlesQueryHuddleResponse
-                                      {
-                                          Start = e.Start,
-                                          End = e.End ?? DateTime.UtcNow,
-                                          Groups = e.HuddleLinks.Where(l => l.Group!.OwnerId == profile!.Id)
-                                              .Select(l => l.GroupId)
-                                              .ToList()
-                                      })
-                                  .ToList()
-                              ?? new List<FetchHuddlesQueryHuddleResponse>()
-                })
-            .ToList();
+                                            x => new FetchHuddlesQueryProfileResponse
+                                            {
+                                                Name = x.DisplayName ?? "",
+                                                ProfileImage = x.ProfileImage,
+                                                UserProfileId = x.Id,
+                                                Huddles = huddleGroups.FirstOrDefault(g => g.Key == x.Id)
+                                                                     ?.Select(
+                                                                           e => new FetchHuddlesQueryHuddleResponse
+                                                                           {
+                                                                               Start = e.Start,
+                                                                               End = e.End ?? DateTime.UtcNow,
+                                                                               Groups = e.HuddleLinks
+                                                                                         .Where(
+                                                                                              l => l.Group!.OwnerId
+                                                                                                == profile!.Id)
+                                                                                         .Select(l => l.GroupId)
+                                                                                         .ToList()
+                                                                           })
+                                                                      .ToList()
+                                                       ?? new List<FetchHuddlesQueryHuddleResponse>()
+                                            })
+                                       .ToList();
 
         return new FetchHuddlesQueryResponse
         {
-            Profiles = profileResponses, Start = start
+            Profiles = profileResponses,
+            Start = start
         };
     }
 }
