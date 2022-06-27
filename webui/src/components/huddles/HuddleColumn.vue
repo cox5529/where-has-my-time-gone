@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, type VNodeRef } from 'vue';
+import { computed } from 'vue';
 
 import moment from 'moment';
 
@@ -28,8 +28,6 @@ const huddles = computed<AnnotatedHuddle[]>(() =>
   })
 );
 
-const huddleRefs = ref<VNodeRef[]>([]);
-
 function convertDateToOffset(date: string): number {
   return (
     ((moment(date).diff(moment(props.start)) / 1000) * props.height) /
@@ -46,8 +44,7 @@ function convertDateToOffset(date: string): number {
       :key="i"
     ></div>
     <div
-      class="bg-blue-500 absolute w-8 left-1/2 -translate-x-1/2"
-      ref="huddleRefs"
+      class="bg-blue-500 absolute w-8 left-1/2 -translate-x-1/2 z-0"
       v-for="(huddle, index) of huddles"
       :key="index"
       :style="{
