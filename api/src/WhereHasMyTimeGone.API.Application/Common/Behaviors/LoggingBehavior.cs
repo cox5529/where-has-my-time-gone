@@ -21,7 +21,7 @@ public class LoggingBehavior<TRequest> : IRequestPreProcessor<TRequest> where TR
         var requestName = typeof(TRequest).Name;
         var userId = _currentUserService.UserId ?? default;
 
-        _logger.LogInformation("Request: {Name} {@UserId} {@Request}", requestName, userId, JsonConvert.SerializeObject(request));
+        _logger.LogInformation("Request: {Name} {@UserId}", requestName, userId);
         return Task.CompletedTask;
     }
 }
