@@ -25,9 +25,10 @@ public class SlackIntegrationController : Controller
     [HttpPost("")]
     public async Task<IActionResult> Event(SlackEventBase request, CancellationToken cancel = default)
     {
+        var json = await GetRequestBodyAsStringAsync();
         if (request.Type == "url_verification")
         {
-            var result = await ProcessEvent<GetSlackChallengeQuery, GetSlackChallengeQueryResponse>(cancel);
+            var result = await ProcessEvent<GetSlackChallengeQuery, GetSlackChallengeQueryResponse>(json, cancel);
             return Ok(result);
         }
 
@@ -36,29 +37,41 @@ public class SlackIntegrationController : Controller
             return NotFound();
         }
 
-        var body = await ParseRequestBody<SlackEvent<SlackEventBase>>();
+        var body = ParseRequestBody<SlackEvent<SlackEventBase>>(json);
         if (body.Event?.Type != "user_huddle_changed")
         {
             return NotFound();
         }
 
-        await ProcessEvent<InsertHuddleStateCommand, Unit>(cancel);
+        await ProcessEvent<InsertHuddleStateCommand, Unit>(json, cancel);
         return NoContent();
-
     }
 
-    private async Task<TResponse> ProcessEvent<TRequest, TResponse>(CancellationToken cancel = default)
+    private async Task<TResponse> ProcessEvent<TRequest, TResponse>(string json, CancellationToken cancel = default)
         where TRequest : SlackEvent, IRequest<TResponse>
     {
-        var body = await ParseRequestBody<TRequest>();
-        return await _sender.Send(body, cancel);
+        var body = ParseRequestBody<TRequest>(json);
+        var response = await _sender.Send(body, cancel);
+
+        await _sender.Send(
+            new LogSlackEventCommand
+            {
+                Type = nameof(TRequest),
+                Content = json
+            },
+            cancel);
+
+        return response;
     }
 
-    private async Task<TRequest> ParseRequestBody<TRequest>()
+    private TRequest ParseRequestBody<TRequest>(string? json)
+    {
+        return JsonConvert.DeserializeObject<TRequest>(json);
+    }
+
+    private async Task<string> GetRequestBodyAsStringAsync()
     {
         Request.Body.Position = 0;
-        var json = await new StreamReader(Request.Body).ReadToEndAsync();
-        var body = JsonConvert.DeserializeObject<TRequest>(json);
-        return body;
+        return await new StreamReader(Request.Body).ReadToEndAsync();
     }
 }
