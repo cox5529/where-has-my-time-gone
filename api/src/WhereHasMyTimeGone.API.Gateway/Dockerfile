@@ -26,5 +26,5 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-HEALTHCHECK --interval=60s --timeout=3s --retries=3 CMD /usr/bin/curl -f https://localhost/api/health || exit 1
+HEALTHCHECK --interval=60s --timeout=3s --retries=3 CMD /usr/bin/curl --insecure -f https://localhost/api/health || exit 1
 ENTRYPOINT ["dotnet", "WhereHasMyTimeGone.API.Gateway.dll"]
