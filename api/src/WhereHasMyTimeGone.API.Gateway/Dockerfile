@@ -2,7 +2,8 @@
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
-RUN apt install curl
+RUN apt-get update
+RUN apt-get install -y curl
 
 ENV ASPNETCORE_Kestrel__Certificates__Default__Path "/etc/certs/certificate.pfx"
 ENV ASPNETCORE_Kestrel__Certificates__Default__Password ""
