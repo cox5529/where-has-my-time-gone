@@ -56,7 +56,7 @@ public class SlackIntegrationController : Controller
         await _sender.Send(
             new LogSlackEventCommand
             {
-                Type = nameof(TRequest),
+                Type = typeof(TRequest).Name,
                 Content = json
             },
             cancel);
