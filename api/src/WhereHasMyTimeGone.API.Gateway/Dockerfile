@@ -2,6 +2,7 @@
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
+RUN apt install curl
 
 ENV ASPNETCORE_Kestrel__Certificates__Default__Path "/etc/certs/certificate.pfx"
 ENV ASPNETCORE_Kestrel__Certificates__Default__Password ""
@@ -24,5 +25,5 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-HEALTHCHECK --interval=60s --timeout=3s --retries=3 CMD /usr/bin/curl https://localhost/api/health || exit 1
+HEALTHCHECK --interval=60s --timeout=3s --retries=3 CMD /usr/bin/curl -f https://localhost/api/health || exit 1
 ENTRYPOINT ["dotnet", "WhereHasMyTimeGone.API.Gateway.dll"]
