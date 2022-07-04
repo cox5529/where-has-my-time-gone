@@ -1,3 +1,5 @@
+const plugin = require('tailwindcss/plugin');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
@@ -28,5 +30,16 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(({ addUtilities }) => {
+      addUtilities({
+        '.border-r-dashed': {
+          borderRightStyle: 'dashed',
+        },
+        '.border-b-solid': {
+          borderBottomStyle: 'solid',
+        },
+      });
+    }),
+  ],
 };

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import AddPersonButton from '../components/AddPersonButton.vue';
 import PersonRecorder from '../components/PersonRecorder.vue';
+import AddPersonButton from '../components/buttons/AddPersonButton.vue';
 
 import { usePersonStore } from '@/stores/people';
 

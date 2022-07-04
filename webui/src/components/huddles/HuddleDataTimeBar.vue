@@ -3,7 +3,7 @@ import { onUnmounted, ref } from 'vue';
 
 import moment from 'moment';
 
-const props = defineProps<{ start: string; height: number }>();
+const props = defineProps<{ start: string }>();
 
 const totalSeconds = 24 * 60 * 60;
 
@@ -14,13 +14,11 @@ const interval = setInterval(updateOffset, 1000);
 
 function updateOffset() {
   const newOffset = convertDateToOffset(moment());
-  offset.value = newOffset;
+  offset.value = newOffset + 0.2;
 }
 
 function convertDateToOffset(date: moment.Moment): number {
-  return (
-    ((date.diff(moment(props.start)) / 1000) * props.height) / totalSeconds
-  );
+  return date.diff(moment(props.start)) / 10 / totalSeconds;
 }
 
 onUnmounted(() => {
@@ -30,7 +28,7 @@ onUnmounted(() => {
 
 <template>
   <div
-    class="border-t-2 absolute w-full border-red-500"
-    :style="{ top: `${offset}px` }"
+    class="border-r-2 absolute h-full border-red-500"
+    :style="{ left: `${offset}%` }"
   ></div>
 </template>

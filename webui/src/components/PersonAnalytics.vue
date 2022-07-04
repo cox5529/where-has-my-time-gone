@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SectionHeader from './typography/SectionHeader.vue';
+import AppSectionHeader from './typography/AppSectionHeader.vue';
 import { computed } from 'vue';
 
 import moment from 'moment';
@@ -26,7 +26,7 @@ function renderDate(isoDate?: string): string {
 
 <template>
   <div class="bg-slate-700 rounded-md p-8">
-    <SectionHeader>Usages for {{ props.person.name }}</SectionHeader>
+    <AppSectionHeader>Usages for {{ props.person.name }}</AppSectionHeader>
     <table class="w-full">
       <thead>
         <tr class="font-semibold border-b">

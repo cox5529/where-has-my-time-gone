@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import PersonRecorderButtons from './PersonRecorderButtons.vue';
 import ProfileImage from './ProfileImage.vue';
-import RecorderButtons from './RecorderButtons.vue';
 
 import type { Person } from '@/models/person';
 import { usePersonStore } from '@/stores/people';
@@ -20,6 +20,6 @@ function onDurationPosted(start: string, end: string): void {
   <div class="flex flex-col items-center gap-4">
     <ProfileImage :url="props.person.image" :name="props.person.name" />
     <h3 class="text-3xl">{{ props.person.name }}</h3>
-    <RecorderButtons @duration-posted="onDurationPosted" />
+    <PersonRecorderButtons @duration-posted="onDurationPosted" />
   </div>
 </template>

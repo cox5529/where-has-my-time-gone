@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import IconButton from '../IconButton.vue';
+import AppIconButton from '../buttons/AppIconButton.vue';
 import { ref } from 'vue';
 
 import moment from 'moment';
@@ -28,14 +28,14 @@ function formatDate(date: string): string {
 
 <template>
   <div class="flex justify-center items-center gap-8 pb-8">
-    <IconButton
+    <AppIconButton
       type="button"
       icon="fa-solid fa-arrow-left"
       color="primary"
       @click="left"
     />
     <h4>{{ formatDate(value) }}</h4>
-    <IconButton
+    <AppIconButton
       type="button"
       icon="fa-solid fa-arrow-right"
       color="primary"

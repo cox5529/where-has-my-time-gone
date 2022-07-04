@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps<{ url?: string; name: string }>();
+const props = defineProps<{ url?: string | null; name: string }>();
 const classList = 'object-cover rounded-full';
 </script>
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import HuddleDataView from '../components/huddles/HuddleDataView.vue';
+import HuddleData from '../components/huddles/HuddleData.vue';
 import HuddleDatePicker from '../components/huddles/HuddleDatePicker.vue';
 import { ref } from 'vue';
 
@@ -15,6 +15,6 @@ function updateHuddleData(newDate: string) {
 <template>
   <div class="flex flex-col max-h-full">
     <HuddleDatePicker @date-change="updateHuddleData" />
-    <HuddleDataView :date="date" />
+    <HuddleData :date="date" />
   </div>
 </template>

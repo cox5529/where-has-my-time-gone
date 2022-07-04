@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TopNavbar from './components/TopNavbar.vue';
+import TheNavbar from './components/TheNavbar.vue';
 import NewPersonModal from './components/modals/NewPersonModal.vue';
 
 import { getAuth } from 'firebase/auth';
@@ -23,7 +23,7 @@ auth.onAuthStateChanged(async (user) => {
 
 <template>
   <div class="bg-slate-900 h-screen flex flex-col">
-    <TopNavbar class="flex-shrink-0" />
+    <TheNavbar class="flex-shrink-0" />
     <div
       class="text-white p-8 flex-shrink overflow-auto"
       v-if="authStore.isLoggedIn !== undefined"
